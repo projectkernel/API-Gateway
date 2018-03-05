@@ -59,6 +59,11 @@ dependencies {
     compile group: 'com.graphql-java', name: 'graphql-java-servlet', version: '4.7.0'
     compile group: 'com.graphql-java', name: 'graphql-spring-boot-starter', version: '3.10.0'
     compile 'com.graphql-java:graphiql-spring-boot-starter:3.10.0'
+
+    // PACT
+    // https://mvnrepository.com/artifact/au.com.dius/pact-jvm-consumer-java8
+    compile group: 'au.com.dius', name: 'pact-jvm-consumer-java8_2.12', version: '3.5.13'
+
 }
 
 jar.baseName = 'app'

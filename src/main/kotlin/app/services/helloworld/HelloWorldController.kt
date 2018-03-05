@@ -1,21 +1,24 @@
 package app.services.helloworld
 
+import app.services.ServiceBuilder
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.stereotype.Component
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import javax.annotation.PostConstruct
 
 @Component
 @ConfigurationProperties(prefix = "services.helloWorld")
 class HelloWorldController {
 
-    lateinit var endpoint : String
-    val service : HelloWorldService by lazy {
-        Retrofit.Builder()
-                .baseUrl(endpoint)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
-                .create(HelloWorldService::class.java)
+    private lateinit var service : HelloWorldService
+    private  var endpoint: String = "http://helloworld.dev.danielspeixoto.com"
+
+    @Autowired
+    private lateinit var serviceBuilder: ServiceBuilder
+
+    @PostConstruct
+    fun setUp() {
+        service = serviceBuilder.build(endpoint, HelloWorldService::class.java) as HelloWorldService
     }
 
     fun hello(): String {

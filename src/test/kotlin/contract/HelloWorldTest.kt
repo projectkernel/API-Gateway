@@ -1,7 +1,6 @@
 package contract
 
 import app.services.ServiceBuilder
-import app.services.helloworld.Config
 import app.services.helloworld.HelloWorldController
 import app.services.helloworld.HelloWorldService
 import au.com.dius.pact.consumer.*
@@ -10,15 +9,10 @@ import org.junit.AfterClass
 import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mock
-import org.mockito.Mockito
-import org.mockito.runners.MockitoJUnitRunner
+import org.junit.runners.JUnit4
 
-@RunWith(MockitoJUnitRunner::class)
+@RunWith(JUnit4::class)
 class HelloWorldTest {
-
-    @Mock
-    lateinit var mockServiceBuilder : ServiceBuilder
 
     @Test
     fun contract() {
@@ -26,9 +20,9 @@ class HelloWorldTest {
         val result = runConsumerTest(pact, MockProviderConfig.createDefault()!!, object : PactTestRun {
             override fun run(mockServer: MockServer) {
                 // Injects new URL
-                Mockito.doReturn(ServiceBuilder().build(mockServer.getUrl(), HelloWorldService::class.java))
-                        .`when`(mockServiceBuilder).build("", HelloWorldService::class.java)
-                val controller = HelloWorldController(mockServiceBuilder, Config(""))
+                val controller = HelloWorldController(
+                        ServiceBuilder().build(
+                                mockServer.getUrl(), HelloWorldService::class.java))
 
                 // Assertion
                 Assert.assertEquals(content, controller.hello())

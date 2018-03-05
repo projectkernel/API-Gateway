@@ -1,3 +1,3 @@
-package app.services.helloworld
+package app.pojos
 
 class Content(val message: String)
